@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Computer;
 use App\Models\User;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -43,10 +46,11 @@ class AdminController extends Controller
     public function homeIndex()
     {
         $all_admin = User::get();
+        $all_computers = Computer::get();
 
         if (Auth::check()) {
             if (Auth::user()->role == 'Admin') {
-                return view('Admin.Dashboard', compact('all_admin'));
+                return view('Admin.Dashboard', compact('all_admin'), compact('all_computers'));
             }
         }
     }

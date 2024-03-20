@@ -24,24 +24,21 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($all_computers as $computer)
             <tr>
-                <td>Computer 1</td>
-                <td>10 MB</td>
-                <td>13 January 2024, 12:30</td>
-                <td><button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button></td>
-            </tr>
-            <tr>
-                <td>Computer 2</td>
-                <td>8 MB</td>
+                <td>{{ $computer->name }}</td>
+                <td>10 MB</td> <!-- Assuming size is static for now -->
                 <td>12 January 2024, 10:45</td>
                 <td><button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button></td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
 
 <!-- Backup Confirmation Modal -->
-<div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel" aria-hidden="true">
+<div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
