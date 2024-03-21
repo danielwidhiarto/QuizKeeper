@@ -1,5 +1,4 @@
-<!-- Modified template with a table -->
-@extends('Components.Header')
+@extends('Layouts.Header')
 @section('title', 'QuizKeeper')
 
 @section('content')
@@ -27,8 +26,8 @@
             @foreach($all_computers as $computer)
             <tr>
                 <td>{{ $computer->name }}</td>
-                <td>10 MB</td> <!-- Assuming size is static for now -->
-                <td>12 January 2024, 10:45</td>
+                <td>10 MB</td> <!-- File size Assuming size is static for now -->
+                <td>12 January 2024, 10:45</td> <!-- Date uplaoded Assuming size is static for now -->
                 <td><button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button></td>
             </tr>
             @endforeach
