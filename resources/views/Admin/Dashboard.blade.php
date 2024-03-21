@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             @foreach($all_computers as $computer)
-            <tr>
+            <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}">
                 <td>{{ $computer->name }}</td>
                 <td>
                     @foreach($computer->files as $file)
