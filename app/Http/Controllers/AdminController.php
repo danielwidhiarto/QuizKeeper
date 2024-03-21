@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Computer;
 use App\Models\User;
+use App\Models\File;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -47,10 +48,11 @@ class AdminController extends Controller
     {
         $all_admin = User::get();
         $all_computers = Computer::get();
+        $all_files = File::get();
 
         if (Auth::check()) {
             if (Auth::user()->role == 'Admin') {
-                return view('Admin.Dashboard', compact('all_admin'), compact('all_computers'));
+                return view('Admin.Dashboard', compact('all_admin'), compact('all_computers'), compact('all_files'));
             }
         }
     }

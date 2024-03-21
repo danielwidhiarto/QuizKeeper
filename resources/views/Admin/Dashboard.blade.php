@@ -26,9 +26,25 @@
             @foreach($all_computers as $computer)
             <tr>
                 <td>{{ $computer->name }}</td>
-                <td>10 MB</td> <!-- File size Assuming size is static for now -->
-                <td>12 January 2024, 10:45</td> <!-- Date uplaoded Assuming size is static for now -->
-                <td><button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button></td>
+                <td>
+                    @foreach($computer->files as $file)
+                    {{ $file->size }} MB<br>
+                    @endforeach
+                </td>
+                <td>
+                    @foreach($computer->files as $file)
+                    {{ $file->created_at->format('d F Y, H:i') }}<br>
+                    @endforeach
+                </td>
+                <td>
+                    @foreach($computer->files as $file)
+                    {{-- <form action="{{ route('delete.file', $file->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+                    </form> --}}
+                    @endforeach
+                </td>
             </tr>
             @endforeach
         </tbody>
