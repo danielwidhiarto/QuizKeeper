@@ -28,7 +28,7 @@
                 <td>{{ $computer->name }}</td>
                 <td>
                     @foreach($computer->files as $file)
-                    {{ $file->size }} MB<br>
+                    {{ round($file->size / (1024 * 1024), 2) }} MB
                     @endforeach
                 </td>
                 <td>

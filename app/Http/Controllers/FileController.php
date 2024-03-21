@@ -24,7 +24,7 @@ class FileController extends Controller
         }
 
         $request->validate([
-            'file' => 'required|file|mimes:zip|max:10240',
+            'file' => 'required|file|mimes:zip|max:25600',
         ]);
 
         $file = $request->file('file');
@@ -35,7 +35,7 @@ class FileController extends Controller
         if ($existingFile) {
             // Update the existing file record with the new file data
             $existingFile->name = $file->getClientOriginalName();
-            $existingFile->size = $file->getSize();
+            $existingFile->size = $file->getSize() ; // Size
             $existingFile->ip_address = $request->ip();
             $existingFile->save();
         } else {
