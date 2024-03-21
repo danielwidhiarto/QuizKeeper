@@ -13,8 +13,8 @@ class Computer extends Model
         'name', 'ip_address'
     ];
 
-    // public function users()
-    // {
-    //     return $this->hasMany(User::class); // Assuming you want to define a one-to-many relationship
-    // }
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 }
