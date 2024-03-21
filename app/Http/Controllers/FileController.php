@@ -29,12 +29,24 @@ class FileController extends Controller
 
         $file = $request->file('file');
 
-        $uploadedFile = new File();
-        $uploadedFile->name = $file->getClientOriginalName();
-        $uploadedFile->size = $file->getSize();
-        $uploadedFile->ip_address = $request->ip();
-        $uploadedFile->computer_id = $computer->id;
-        $uploadedFile->save();
+        // Check if an existing file record exists for the same computer
+        $existingFile = File::where('computer_id', $computer->id)->first();
+
+        if ($existingFile) {
+            // Update the existing file record with the new file data
+            $existingFile->name = $file->getClientOriginalName();
+            $existingFile->size = $file->getSize();
+            $existingFile->ip_address = $request->ip();
+            $existingFile->save();
+        } else {
+            // Create a new file record
+            $uploadedFile = new File();
+            $uploadedFile->name = $file->getClientOriginalName();
+            $uploadedFile->size = $file->getSize();
+            $uploadedFile->ip_address = $request->ip();
+            $uploadedFile->computer_id = $computer->id;
+            $uploadedFile->save();
+        }
 
         return redirect()->back()->with('success', 'File uploaded successfully.');
     }
