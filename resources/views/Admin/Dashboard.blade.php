@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="container">
-    {{-- <h2>Uploaded Files</h2> --}}
+    <h2>Uploaded Files</h2>
     <div class="mb-3 d-flex justify-content-end">
         <button type="button" class="btn btn-danger mr-2" data-bs-toggle="modal"
             data-bs-target="#deleteConfirmationModal">Delete All</button>
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             @foreach($all_computers as $computer)
-            <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}">
+            <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}" style="margin-bottom: 5px;">
                 <td>{{ $computer->name }}</td>
                 <td>
                     @foreach($computer->files as $file)
@@ -38,11 +38,11 @@
                 </td>
                 <td>
                     @foreach($computer->files as $file)
-                    {{-- <form action="{{ route('delete.file', $file->id) }}" method="POST">
+                    {{-- <form action="{{ route('delete.file', $file->id) }}" method="POST"> --}}
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
-                    </form> --}}
+                    {{-- </form> --}}
                     @endforeach
                 </td>
             </tr>

@@ -10,7 +10,7 @@ class FileController extends Controller
 {
     public function showUploadForm()
     {
-        return view('upload');
+        return view('Student.Upload');
     }
 
 
