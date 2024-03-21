@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('computers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('ip_address', 15)->index();
+            $table->ipAddress('ip_address')->unique();
         });
-
     }
 
     /**

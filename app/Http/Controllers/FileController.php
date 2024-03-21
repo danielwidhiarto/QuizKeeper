@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\File; // Import the File model
+use App\Models\Computer; // Import the File model
 
 use Illuminate\Http\Request;
 
@@ -15,21 +16,24 @@ class FileController extends Controller
 
     public function upload(Request $request)
     {
+        // Check if the user's IP address exists in the 'computers' table
+        $computer = Computer::where('ip_address', $request->ip())->first();
+
+        if (!$computer) {
+            return redirect()->back()->with('error', 'Your IP address is not authorized to upload files.');
+        }
+
         $request->validate([
-            'file' => 'required|file|mimes:zip|max:10240', // Allow only ZIP files up to 10MB
+            'file' => 'required|file|mimes:zip|max:10240',
         ]);
 
         $file = $request->file('file');
 
-        // Store the file in the storage/app/uploads directory
-        $path = $file->store('uploads');
-
-        // Create a new File record in the database
         $uploadedFile = new File();
-        $uploadedFile->name = $file->getClientOriginalName(); // Get the original file name
-        $uploadedFile->size = $file->getSize(); // Get the file size
-        // $uploadedFile->ip_address = $request->ip(); // Get the IP address of the user who uploaded the file
-        // $uploadedFile->path = $path; // Store the file path
+        $uploadedFile->name = $file->getClientOriginalName();
+        $uploadedFile->size = $file->getSize();
+        $uploadedFile->ip_address = $request->ip();
+        $uploadedFile->computer_id = $computer->id;
         $uploadedFile->save();
 
         return redirect()->back()->with('success', 'File uploaded successfully.');

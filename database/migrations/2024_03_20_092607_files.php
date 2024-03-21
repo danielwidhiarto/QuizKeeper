@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->double('size');
+            $table->string('ip_address');
             $table->timestamps();
-            // $table->string('ip_address', 15);
-            // $table->foreignId('ip_address')->constrained('computers')->onDelete('cascade');
+            $table->foreignId('computer_id')->constrained('computers')->onDelete('cascade');
         });
     }
 
