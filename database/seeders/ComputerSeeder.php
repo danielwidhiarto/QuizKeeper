@@ -141,6 +141,10 @@ class ComputerSeeder extends Seeder
             [
                 "name" => "BMCA031431",
                 "ip_address" => "10.38.23.131"
+            ],
+            [
+                "name" => "BMCA031517",
+                "ip_address" => "10.38.25.117"
             ]
         ];
 
