@@ -17,7 +17,7 @@
         <thead>
             <tr>
                 <th scope="col">Computer Name</th>
-                <th scope="col">Size</th>
+                <th scope="col">Size (KB) </th>
                 <th scope="col">Date and Time Uploaded</th>
                 <th scope="col">Action</th>
             </tr>
@@ -28,12 +28,12 @@
                 <td>{{ $computer->name }}</td>
                 <td>
                     @foreach($computer->files as $file)
-                    {{ round($file->size / (1024 * 1024), 2) }} MB
+                        {{ round($file->size / 1024) }}
                     @endforeach
                 </td>
                 <td>
                     @foreach($computer->files as $file)
-                    {{ $file->created_at->format('d F Y, H:i') }}<br>
+                    {{ $file->updated_at->format('d F Y, H:i') }}<br>
                     @endforeach
                 </td>
                 <td>
@@ -62,12 +62,8 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="course" class="form-label">Course</label>
-                    <select class="form-select" id="course">
-                        <option selected>Select Course</option>
-                        <option value="course1">Course 1</option>
-                        <option value="course2">Course 2</option>
-                    </select>
+                    <label for="class" class="form-label">Course Name</label>
+                    <input type="text" class="form-control" id="class">
                 </div>
                 <div class="mb-3">
                     <label for="type" class="form-label">Type</label>
@@ -77,6 +73,7 @@
                         <option value="type2">Quiz 2</option>
                         <option value="type2">Mid Exam</option>
                         <option value="type2">Final Exam</option>
+                        <option value="type2">Other</option>
                     </select>
                 </div>
                 <div class="mb-3">
