@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\File; // Import the File model
+use App\Models\User;
+use App\Models\File;
 use App\Models\Computer; // Import the File model
 
 use Illuminate\Http\Request;
@@ -49,5 +50,22 @@ class FileController extends Controller
         }
 
         return redirect()->back()->with('success', 'File uploaded successfully.');
+    }
+    
+    public function deleteFile($id)
+    {
+        // Find the file by ID and delete it
+        $file = File::findOrFail($id);
+        $file->delete();
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'File deleted successfully.');
+    }
+
+    public function deleteAllFile()
+    {
+        // Delete all files
+        File::truncate();
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'All files deleted successfully.');
     }
 }

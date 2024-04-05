@@ -6,7 +6,7 @@
     <h2>Uploaded Files</h2>
     <div class="mb-3 d-flex justify-content-end">
         <button type="button" class="btn btn-danger mr-2" data-bs-toggle="modal"
-            data-bs-target="#deleteConfirmationModal">Delete All</button>
+            data-bs-target="#deleteAllConfirmationModal">Delete All</button>
 
         <button class="btn btn-primary mr-2">Download</button>
         <button type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
@@ -38,11 +38,12 @@
                 </td>
                 <td>
                     @foreach($computer->files as $file)
-                    {{-- <form action="{{ route('delete.file', $file->id) }}" method="POST"> --}}
+                    <form action="{{ route('delete_file', $file->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
-                    {{-- </form> --}}
+                        <button type="submit" class="btn btn-outline-danger"data-bs-toggle="modal"
+            data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
+                    </form>
                     @endforeach
                 </td>
             </tr>
@@ -91,6 +92,26 @@
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this answer?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete All Confirmation Modal -->
+<div class="modal fade" id="deleteAllConfirmationModal" tabindex="-1" aria-labelledby="deleteAllConfirmationModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
