@@ -8,10 +8,11 @@
         <button type="button" class="btn btn-danger mr-2" data-bs-toggle="modal"
             data-bs-target="#deleteAllConfirmationModal">Delete All</button>
 
-        <button class="btn btn-primary mr-2">Download</button>
+        <button type="button" class="btn btn-primary mr-2" data-bs-toggle="modal"
+            data-bs-target="#downloadAllConfirmationModal">Download All</button>
+
         <button type="button" class="btn btn-success mr-2" data-bs-toggle="modal"
             data-bs-target="#backupConfirmationModal">Backup to Server</button>
-
     </div>
     <table class="table">
         <thead>
@@ -111,6 +112,28 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete All</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Download All Confirmation Modal -->
+<div class="modal fade" id="downloadAllConfirmationModal" tabindex="-1" aria-labelledby="downloadAllConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="downloadAllConfirmationModalLabel">Download Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to download all files as a ZIP archive?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('download_all_files') }}" method="GET" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Download All</button>
                 </form>
             </div>
         </div>

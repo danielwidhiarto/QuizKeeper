@@ -9,6 +9,7 @@ use App\Models\Computer; // Import the File model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
+use ZipArchive;
 
 class FileController extends Controller
 {
@@ -99,5 +100,29 @@ class FileController extends Controller
         File::truncate();
         // Redirect back with success message
         return redirect()->back()->with('success', 'All files deleted successfully.');
+    }
+
+    public function downloadAllFiles()
+    {
+        $files = File::all();
+
+        if ($files->isEmpty()) {
+            return redirect()->back()->with('error', 'No files available to download.');
+        }
+
+        $zip = new ZipArchive;
+        $zipFileName = 'all_files.zip';
+        $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
+
+        if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
+            foreach ($files as $file) {
+                $zip->addFromString($file->name, $file->content);
+            }
+            $zip->close();
+        } else {
+            return redirect()->back()->with('error', 'Could not create ZIP file.');
+        }
+
+        return response()->download($tempFile, $zipFileName)->deleteFileAfterSend(true);
     }
 }
