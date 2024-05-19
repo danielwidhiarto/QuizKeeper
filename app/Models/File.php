@@ -10,7 +10,11 @@ class File extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'size', 'ip_address'
+        'name',
+        'size',
+        'ip_address',
+        'computer_id',
+        'content', // Add this if it's not already there
     ];
 
 }

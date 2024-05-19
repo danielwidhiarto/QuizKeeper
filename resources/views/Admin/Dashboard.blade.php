@@ -38,11 +38,17 @@
                 </td>
                 <td>
                     @foreach($computer->files as $file)
-                    <form action="{{ route('delete_file', $file->id) }}" method="POST">
+                    <!-- Download icon with link to download the file -->
+                    <a href="{{ route('download_file', $file->id) }}" class="btn btn-outline-primary">
+                        <i class="bi bi-download"></i>
+                    </a>
+                    <!-- Delete icon with form to delete the file -->
+                    <form action="{{ route('delete_file', $file->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger"data-bs-toggle="modal"
-            data-bs-target="#deleteConfirmationModal"><i class="bi bi-trash"></i></button>
+                        <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </form>
                     @endforeach
                 </td>
