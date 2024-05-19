@@ -66,31 +66,34 @@
                 <h5 class="modal-title" id="backupConfirmationModalLabel">Backup Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="class" class="form-label">Course Name</label>
-                    <input type="text" class="form-control" id="class">
+            <form action="{{ route('backup_all_files') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="course_name" class="form-label">Course Name</label>
+                        <input type="text" class="form-control" id="course_name" name="course_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <select class="form-select" id="type" name="type" required>
+                            <option selected>Select Type</option>
+                            <option value="Quiz 1">Quiz 1</option>
+                            <option value="Quiz 2">Quiz 2</option>
+                            <option value="Mid Exam">Mid Exam</option>
+                            <option value="Final Exam">Final Exam</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="class" class="form-label">Class</label>
+                        <input type="text" class="form-control" id="class" name="class" required>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="type" class="form-label">Type</label>
-                    <select class="form-select" id="type">
-                        <option selected>Select Type</option>
-                        <option value="type1">Quiz 1</option>
-                        <option value="type2">Quiz 2</option>
-                        <option value="type3">Mid Exam</option>
-                        <option value="type4">Final Exam</option>
-                        <option value="type5">Other</option>
-                    </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Backup</button>
                 </div>
-                <div class="mb-3">
-                    <label for="class" class="form-label">Class</label>
-                    <input type="text" class="form-control" id="class">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success">Backup</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>

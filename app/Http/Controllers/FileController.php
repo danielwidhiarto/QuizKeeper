@@ -125,4 +125,34 @@ class FileController extends Controller
 
         return response()->download($tempFile, $zipFileName)->deleteFileAfterSend(true);
     }
+
+    public function backupAllFiles(Request $request)
+{
+    $files = File::all();
+
+    if ($files->isEmpty()) {
+        return redirect()->back()->with('error', 'No files available for backup.');
+    }
+
+    $courseName = $request->input('course_name');
+    $type = $request->input('type');
+    $class = $request->input('class');
+
+    $zip = new ZipArchive;
+    $zipFileName = "{$courseName} - {$type} - {$class}.zip";
+    $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
+
+    if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
+        foreach ($files as $file) {
+            $customFileName = "{$courseName} - {$type} - {$class}/{$file->name}";
+            $zip->addFromString($customFileName, $file->content);
+        }
+        $zip->close();
+    } else {
+        return redirect()->back()->with('error', 'Could not create ZIP file.');
+    }
+
+    return response()->download($tempFile, $zipFileName)->deleteFileAfterSend(true);
+}
+
 }

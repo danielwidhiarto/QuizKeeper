@@ -25,3 +25,4 @@ Route::delete('/dashboard/delete-file/{id}', [FileController::class, 'deleteFile
 Route::get('/dashboard/download-file/{id}', [FileController::class, 'downloadFile'])->name('download_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
 Route::delete('/dashboard/delete-all-file/', [FileController::class, 'deleteAllFile'])->name('delete_all_files')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
 Route::get('/dashboard/download-all-files', [FileController::class, 'downloadAllFiles'])->name('download_all_files')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
+Route::post('/dashboard/backup-all-files', [FileController::class, 'backupAllFiles'])->name('backup_all_files')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
