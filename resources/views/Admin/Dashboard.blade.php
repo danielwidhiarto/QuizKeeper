@@ -38,7 +38,6 @@
                 </td>
                 <td>
                     @foreach($computer->files as $file)
-                    <!-- Download icon with link to download the file -->
                     <a href="{{ route('download_file', $file->id) }}" class="btn btn-outline-primary">
                         <i class="bi bi-download"></i>
                     </a>
@@ -59,8 +58,7 @@
 </div>
 
 <!-- Backup Confirmation Modal -->
-<div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,9 +76,9 @@
                         <option selected>Select Type</option>
                         <option value="type1">Quiz 1</option>
                         <option value="type2">Quiz 2</option>
-                        <option value="type2">Mid Exam</option>
-                        <option value="type2">Final Exam</option>
-                        <option value="type2">Other</option>
+                        <option value="type3">Mid Exam</option>
+                        <option value="type4">Final Exam</option>
+                        <option value="type5">Other</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -96,41 +94,24 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this answer?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Delete All Confirmation Modal -->
-<div class="modal fade" id="deleteAllConfirmationModal" tabindex="-1" aria-labelledby="deleteAllConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteAllConfirmationModal" tabindex="-1" aria-labelledby="deleteAllConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Confirmation</h5>
+                <h5 class="modal-title" id="deleteAllConfirmationModalLabel">Delete Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete all answer?
+                Are you sure you want to delete all files?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <form action="{{ route('delete_all_files') }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete All</button>
+                </form>
             </div>
         </div>
     </div>
