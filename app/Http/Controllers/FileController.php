@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 use ZipArchive;
+use phpseclib3\Net\SFTP;
 
 class FileController extends Controller
 {
@@ -127,32 +128,49 @@ class FileController extends Controller
     }
 
     public function backupAllFiles(Request $request)
-{
-    $files = File::all();
+    {
+        $files = File::all();
 
-    if ($files->isEmpty()) {
-        return redirect()->back()->with('error', 'No files available for backup.');
-    }
-
-    $courseName = $request->input('course_name');
-    $type = $request->input('type');
-    $class = $request->input('class');
-
-    $zip = new ZipArchive;
-    $zipFileName = "{$courseName} - {$type} - {$class}.zip";
-    $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
-
-    if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
-        foreach ($files as $file) {
-            $customFileName = "{$courseName} - {$type} - {$class}/{$file->name}";
-            $zip->addFromString($customFileName, $file->content);
+        if ($files->isEmpty()) {
+            return redirect()->back()->with('error', 'No files available for backup.');
         }
-        $zip->close();
-    } else {
-        return redirect()->back()->with('error', 'Could not create ZIP file.');
+
+        $courseName = $request->input('course_name');
+        $type = $request->input('type');
+        $class = $request->input('class');
+
+        $zip = new ZipArchive;
+        $zipFileName = "{$courseName} - {$type} - {$class}.zip";
+        $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
+
+        if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
+            foreach ($files as $file) {
+                $customFileName = "{$courseName} - {$type} - {$class}/{$file->name}";
+                $zip->addFromString($customFileName, $file->content);
+            }
+            $zip->close();
+        } else {
+            return redirect()->back()->with('error', 'Could not create ZIP file.');
+        }
+
+        // SFTP transfer details
+        $sftpHost = 'TARGET_PC_IP';
+        $sftpUsername = 'TARGET_PC_USERNAME';
+        $sftpPassword = 'TARGET_PC_PASSWORD';
+        $remoteFilePath = "/path/on/target/pc/{$zipFileName}";
+
+        try {
+            $sftp = new SFTP($sftpHost);
+            if (!$sftp->login($sftpUsername, $sftpPassword)) {
+                throw new \Exception('Login failed');
+            }
+
+            $sftp->put($remoteFilePath, file_get_contents($tempFile));
+
+            return redirect()->back()->with('success', 'Backup completed successfully and transferred to the target PC.');
+        } catch (\Exception $e) {
+            Log::error('SFTP error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Backup created, but there was an error transferring the file: ' . $e->getMessage());
+        }
     }
-
-    return response()->download($tempFile, $zipFileName)->deleteFileAfterSend(true);
-}
-
 }
