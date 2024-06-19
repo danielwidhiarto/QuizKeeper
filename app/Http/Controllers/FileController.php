@@ -105,5 +105,30 @@ class FileController extends Controller
 
     public function downloadAllFiles()
     {
+        $files = File::all();
 
+        if ($files->isEmpty()) {
+            return redirect()->back()->with('error', 'No files available to download.');
+        }
+
+        $zip = new ZipArchive;
+        $zipFileName = 'all_files.zip';
+        $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
+
+        if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
+            foreach ($files as $file) {
+                $zip->addFromString($file->name, $file->content);
+            }
+            $zip->close();
+        } else {
+            return redirect()->back()->with('error', 'Could not create ZIP file.');
+        }
+
+        return response()->download($tempFile, $zipFileName)->deleteFileAfterSend(true);
+    }
+
+    public function backupAllFiles(Request $request)
+    {
+       
+    }
 }
