@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\IPAddressController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthCheck;
 use App\Http\Middleware\RoleCheck;
