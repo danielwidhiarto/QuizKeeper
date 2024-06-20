@@ -17,9 +17,8 @@ return new class extends Migration
             $table->double('size');
             $table->string('ip_address');
             $table->timestamps();
-            $table->binary('content');
-            $table->string('computer_name');
-            $table->foreign('computer_name')->references('name')->on('computers')->onDelete('cascade');
+            $table->binary('content'); // Add this line
+            $table->foreignId('computer_id')->constrained('computers')->onDelete('cascade');
         });
     }
 
