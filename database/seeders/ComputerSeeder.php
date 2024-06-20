@@ -15,8 +15,12 @@ class ComputerSeeder extends Seeder
 
         $computers = [
             [
-                "name" => "local",
+                "name" => "pc_ed",
                 "ip_address" => "127.0.0.1"
+            ],
+            [
+                "name" => "pc_so",
+                "ip_address" => "10.38.10.149"
             ],
             [
                 "name" => "BMCA031401",
