@@ -25,41 +25,43 @@
         </thead>
         <tbody>
             @foreach($all_computers as $computer)
-            <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}" style="margin-bottom: 5px;">
-                <td>{{ $computer->name }}</td>
-                <td>
-                    @foreach($computer->files as $file)
-                        {{ round($file->size / 1024) }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($computer->files as $file)
-                    {{ $file->updated_at->format('d F Y, H:i') }}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($computer->files as $file)
-                    <a href="{{ route('download_file', $file->id) }}" class="btn btn-outline-primary">
-                        <i class="bi bi-download"></i>
-                    </a>
-                    <!-- Delete icon with form to delete the file -->
-                    <form action="{{ route('delete_file', $file->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
-                    @endforeach
-                </td>
-            </tr>
+                <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}"
+                    style="margin-bottom: 5px;">
+                    <td>{{ $computer->name }}</td>
+                    <td>
+                        @foreach($computer->files as $file)
+                            {{ round($file->size / 1024) }}
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($computer->files as $file)
+                            {{ $file->updated_at->format('d F Y, H:i') }}<br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($computer->files as $file)
+                            <a href="{{ route('download_file', $file->id) }}" class="btn btn-outline-primary">
+                                <i class="bi bi-download"></i>
+                            </a>
+                            <!-- Delete icon with form to delete the file -->
+                            <form action="{{ route('delete_file', $file->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteConfirmationModal">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        @endforeach
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
 </div>
 
-<!-- Backup Confirmation Modal -->
-<div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel" aria-hidden="true">
+<div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,10 +71,16 @@
             <form action="{{ route('backup_all_files') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="course_name" class="form-label">Course Name</label>
-                        <input type="text" class="form-control" id="course_name" name="course_name" required>
-                    </div>
+                <div class="mb-3">
+    <label for="subject_select" class="form-label">Select Subject</label>
+    <select class="form-control" id="subject_select">
+        <option value="" selected>Select Subject</option>
+        @foreach($all_subjects as $subject)
+            <option value="{{ $subject->subject_code }}">{{ $subject->subject_code }} - {{ $subject->subject_name }}</option>
+        @endforeach
+    </select>
+</div>
+
                     <div class="mb-3">
                         <label for="type" class="form-label">Type</label>
                         <select class="form-select" id="type" name="type" required>
@@ -99,7 +107,8 @@
 </div>
 
 <!-- Delete All Confirmation Modal -->
-<div class="modal fade" id="deleteAllConfirmationModal" tabindex="-1" aria-labelledby="deleteAllConfirmationModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteAllConfirmationModal" tabindex="-1" aria-labelledby="deleteAllConfirmationModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +131,8 @@
 </div>
 
 <!-- Download All Confirmation Modal -->
-<div class="modal fade" id="downloadAllConfirmationModal" tabindex="-1" aria-labelledby="downloadAllConfirmationModalLabel" aria-hidden="true">
+<div class="modal fade" id="downloadAllConfirmationModal" tabindex="-1"
+    aria-labelledby="downloadAllConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -143,3 +153,16 @@
     </div>
 </div>
 @endsection
+
+<script>
+    $(document).ready(function() {
+        $('#subject_select').select2({
+            placeholder: 'Select Subject',
+            allowClear: true, // Optional, enables clear button
+            minimumInputLength: 1, // Minimum characters before searching
+            width: '100%', // Adjust the width as needed
+            dropdownAutoWidth: true // Auto-adjust dropdown width to match input width
+        });
+    });
+</script>
+
