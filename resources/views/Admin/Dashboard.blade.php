@@ -30,7 +30,7 @@
                     <td>{{ $computer->name }}</td>
                     <td>
                         @foreach($computer->files as $file)
-                            {{ round($file->size / 1024) }}
+                            {{ round($file->size) }}
                         @endforeach
                     </td>
                     <td>
@@ -60,6 +60,7 @@
     </table>
 </div>
 
+<!-- Backup All Confirmation Modal -->
 <div class="modal fade" id="backupConfirmationModal" tabindex="-1" aria-labelledby="backupConfirmationModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -165,4 +166,3 @@
         });
     });
 </script>
-
