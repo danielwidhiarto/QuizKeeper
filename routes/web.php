@@ -10,7 +10,7 @@ Route::get('/', [FileController::class, 'showUploadForm']);
 Route::post('/upload', [FileController::class, 'upload'])->name('upload');
 
 //Admin Login Page
-Route::get('/auth/login', function(){return view('Admin.Login');})->name('admin_login');
+Route::get('/auth/login', function(){return view('Login');})->name('admin_login');
 
 //Admin Login Route
 Route::post('/auth/login', [AdminController::class, 'adminLogin'])->name('admin_login');
