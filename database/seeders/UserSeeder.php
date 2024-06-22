@@ -16,6 +16,11 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
+                "username" => "univ_lab_bekasi",
+                "password" => Hash::make('univ_lab_bekasi'),
+                "role" => "SuperAdmin",
+            ],
+            [
                 "username" => "tutor",
                 "password" => Hash::make('tutor'),
                 "role" => "Admin",
