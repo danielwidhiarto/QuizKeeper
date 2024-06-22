@@ -86,8 +86,7 @@
                         <label for="type" class="form-label">Type</label>
                         <select class="form-select" id="type" name="type" required>
                             <option selected>Select Type</option>
-                            <option value="Quiz 1">Quiz 1</option>
-                            <option value="Quiz 2">Quiz 2</option>
+                            <option value="Assignment">Assignment</option>
                             <option value="Mid Exam">Mid Exam</option>
                             <option value="Final Exam">Final Exam</option>
                             <option value="Other">Other</option>
