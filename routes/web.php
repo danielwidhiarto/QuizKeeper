@@ -17,6 +17,7 @@ Route::post('/auth/login', [AdminController::class, 'adminLogin'])->name('admin_
 
 //Admin Dashboard
 Route::get('/dashboard', [AdminController::class, 'homeIndex'])->name('admin_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
+Route::get('/dashboard/SuperAdmin', [AdminController::class, 'homeIndex'])->name('superAdmin_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':SuperAdmin');
 Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin_logout');
 
 //Files
