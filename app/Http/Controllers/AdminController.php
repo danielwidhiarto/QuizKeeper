@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Computer;
 use App\Models\User;
-use App\Models\File;
+use App\Models\Files;
 use App\Models\Subject;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +49,7 @@ class AdminController extends Controller
     {
         $all_admin = User::get();
         $all_computers = Computer::get();
-        $all_files = File::get();
+        $all_files = Files::get();
         $all_subjects = Subject::get();
     
         if (Auth::check()) {

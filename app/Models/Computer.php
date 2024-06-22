@@ -15,6 +15,6 @@ class Computer extends Model
 
     public function files()
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(Files::class);
     }
 }

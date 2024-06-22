@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\File;
+use App\Models\Files;
 use App\Models\Computer; // Import the File model
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 use ZipArchive;
-use phpseclib3\Net\SFTP;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\File;
 class FileController extends Controller
 {
     public function showUploadForm()
@@ -29,7 +29,11 @@ class FileController extends Controller
         }
 
         $request->validate([
-            'file' => 'required|file|mimes:zip|max:25600',
+            'file' => [
+                'required',
+                File::types(['zip'])
+                ->max(12 * 1024 * 1024), // 12 MB
+            ],
         ]);
 
         $file = $request->file('file');
@@ -42,7 +46,7 @@ class FileController extends Controller
 
         try {
             // Check if an existing file record exists for the same computer
-            $existingFile = File::where('computer_id', $computer->id)->first();
+            $existingFile = Files::where('computer_id', $computer->id)->first();
 
             if ($existingFile) {
                 // Update the existing file record with the new file data
@@ -53,7 +57,7 @@ class FileController extends Controller
                 $existingFile->save();
             } else {
                 // Create a new file record
-                $uploadedFile = new File();
+                $uploadedFile = new Files();
                 $uploadedFile->name = $fileName;
                 $uploadedFile->size = $file->getSize();
                 $uploadedFile->ip_address = $request->ip();
@@ -75,7 +79,7 @@ class FileController extends Controller
     public function deleteFile($id)
     {
         // Find the file by ID and delete it
-        $file = File::findOrFail($id);
+        $file = Files::findOrFail($id);
         $file->delete();
         // Redirect back with success message
         return redirect()->back()->with('success', 'File deleted successfully.');
@@ -84,7 +88,7 @@ class FileController extends Controller
     public function downloadFile($id)
     {
         // Find the file by ID
-        $file = File::findOrFail($id);
+        $file = Files::findOrFail($id);
 
         // Get the file content from the database
         $fileContent = $file->content;
@@ -98,14 +102,14 @@ class FileController extends Controller
     public function deleteAllFile()
     {
         // Delete all files
-        File::truncate();
+        Files::truncate();
         // Redirect back with success message
         return redirect()->back()->with('success', 'All files deleted successfully.');
     }
 
     public function downloadAllFiles()
     {
-        $files = File::all();
+        $files = Files::all();
 
         if ($files->isEmpty()) {
             return redirect()->back()->with('error', 'No files available to download.');
