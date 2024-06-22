@@ -53,9 +53,9 @@
                 </div>
                 <div class="time ng-binding" id="current-time" style="color: #777;"></div>
                 <!-- Signout Button with smaller size -->
-                <!-- <button type="button" class="btn btn-light btn-sm" style="float: right;"
+                <button type="button" class="btn btn-light btn-sm" style="float: right;"
                     onclick="window.location.href='{{route('admin_logout')}}'"><i class="bi bi-box-arrow-left"></i> Sign
-                    out</button> -->
+                    out</button>
             </div>
         </div>
     </header>
