@@ -6,6 +6,7 @@ use App\Models\Computer;
 use App\Models\User;
 use App\Models\Files;
 use App\Models\Subject;
+use App\Models\Transaction;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -53,13 +54,15 @@ class AdminController extends Controller
         $all_computers = Computer::get();
         $all_files = Files::get();
         $all_subjects = Subject::get();
+        $all_transactions = Transaction::get();
+        $subjects = Subject::all()->keyBy('subject_code');
 
         if (Auth::check()) {
             if (Auth::user()->role == 'Admin') {
                 return view('Admin.Dashboard', compact('all_admin', 'all_computers', 'all_files', 'all_subjects'));
             } else
                 (Auth::user()->role == 'SuperAdmin'); {
-                return view('SuperAdmin.Dashboard', compact('all_admin', 'all_computers', 'all_files', 'all_subjects'));
+                return view('SuperAdmin.Dashboard', compact('all_admin', 'all_computers', 'all_files', 'all_subjects', 'all_transactions','subjects'));
             }
 
         }
