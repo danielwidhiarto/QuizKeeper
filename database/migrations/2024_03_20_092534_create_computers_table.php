@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('computers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('room');
             $table->ipAddress('ip_address')->unique();
         });
     }
