@@ -143,15 +143,12 @@ class FileController extends Controller
             'proctor2' => 'nullable|string',
         ]);
 
-        // Retrieve all uploaded files
         $files = Files::all();
 
-        // Check if there are any files to backup
         if ($files->isEmpty()) {
             return redirect()->back()->with('error', 'No files available to backup.');
         }
 
-        // Create a ZIP archive
         $zip = new ZipArchive;
         $zipFileName = 'backup_' . time() . '.zip';
         $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
@@ -165,7 +162,6 @@ class FileController extends Controller
             return redirect()->back()->with('error', 'Could not create ZIP file.');
         }
 
-        // Create a new transaction record and save the ZIP file content
         try {
             $transaction = new Transaction();
             $transaction->exam_type = $request->type;
@@ -183,7 +179,6 @@ class FileController extends Controller
             return redirect()->back()->with('error', 'Failed to create transaction record.');
         }
 
-        // Return the ZIP archive as a downloadable response
         return response()->download($tempFile, $zipFileName)->deleteFileAfterSend(true);
     }
 

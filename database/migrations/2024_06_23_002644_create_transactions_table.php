@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -22,10 +23,18 @@ return new class extends Migration
             $table->string('room');
             $table->string('assistant_initial');
             $table->string('assistant_initial2')->nullable();
-            $table->binary('file_content'); // Add this line to store the file content directly
             $table->timestamps();
+        });
+
+        // Add LONGBLOB column using raw SQL
+        DB::statement('ALTER TABLE transactions ADD file_content LONGBLOB');
+
+        // Add foreign key constraint
+        Schema::table('transactions', function (Blueprint $table) {
             $table->foreign('subject_code')->references('subject_code')->on('subjects');
         });
+
+        DB::statement('ALTER TABLE files ADD file_content LONGBLOB');
     }
 
     /**
@@ -33,6 +42,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropForeign(['subject_code']);
+        });
+
         Schema::dropIfExists('transactions');
     }
 };
