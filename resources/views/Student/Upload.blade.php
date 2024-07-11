@@ -16,6 +16,15 @@
                         </div>
                     @endif
 
+                    @if (session('fileDetails'))
+                        <div class="alert alert-info" role="alert">
+                            <strong>File Details:</strong><br>
+                            Name: {{ session('fileDetails.name') }}<br>
+                            Size: {{ round(session('fileDetails.size') / 1024, 2) }} KB<br>
+                            Uploaded At: {{ session('fileDetails.uploaded_at') }}
+                        </div>
+                    @endif
+
                     <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 

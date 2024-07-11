@@ -21,56 +21,66 @@ class FileController extends Controller
 
     public function upload(Request $request)
     {
-        // Validate the request
+        // Check if the user's IP address exists in the 'computers' table
+        $computer = Computer::where('ip_address', $request->ip())->first();
+
+        if (!$computer) {
+            return redirect()->back()->with('error', 'Your IP address is not authorized to upload files.');
+        }
+
         $request->validate([
-            'file' => 'required|mimes:zip|max:25600', // Maximum size 25MB
+            'file' => [
+                'required',
+                File::types(['zip'])
+                    ->max(12 * 1024 * 1024), // 12 MB
+            ],
         ]);
 
-        // Check if file is valid
-        if ($request->file('file')->isValid()) {
-            // Get the file size in bytes
-            $file = $request->file('file');
-            $size = $file->getSize();
+        $file = $request->file('file');
+        $fileName = $file->getClientOriginalName();
 
-            // Check if the file size is at least 10 KB (10 * 1024 bytes)
-            if ($size < 10240) {
-                return back()->withErrors(['file' => 'The file must be at least 10 KB.']);
-            }
+        // Validate file name length
+        if (strlen($fileName) > 255) {
+            return redirect()->back()->with('error', 'The file name is too long. Please use a shorter file name.');
+        }
 
-            // Check if the computer is authorized
-            $computer = Computer::where('ip_address', $request->ip())->first();
-            if (!$computer) {
-                return back()->with('error', 'Your IP address is not authorized to upload files.');
-            }
-
+        try {
             // Check if an existing file record exists for the same computer
             $existingFile = Files::where('computer_id', $computer->id)->first();
 
-            $name = $file->getClientOriginalName();
-            $content = file_get_contents($file->getRealPath());
-
             if ($existingFile) {
                 // Update the existing file record with the new file data
-                $existingFile->name = $name;
-                $existingFile->size = $size;
+                $existingFile->name = $fileName;
+                $existingFile->size = $file->getSize();
                 $existingFile->ip_address = $request->ip();
-                $existingFile->content = $content;
+                $existingFile->content = file_get_contents($file->getRealPath());
                 $existingFile->save();
             } else {
                 // Create a new file record
                 $uploadedFile = new Files();
-                $uploadedFile->name = $name;
-                $uploadedFile->size = $size;
+                $uploadedFile->name = $fileName;
+                $uploadedFile->size = $file->getSize();
                 $uploadedFile->ip_address = $request->ip();
-                $uploadedFile->content = $content;
+                $uploadedFile->content = file_get_contents($file->getRealPath());
                 $uploadedFile->computer_id = $computer->id;
                 $uploadedFile->save();
             }
 
-            return redirect()->back()->with('success', 'File uploaded successfully.');
-        }
+            // Pass the file details to the view
+            $fileDetails = [
+                'name' => $fileName,
+                'size' => $file->getSize(),
+                'uploaded_at' => now()->format('d F Y, H:i')
+            ];
 
-        return back()->withErrors(['file' => 'File upload failed.']);
+            return redirect()->back()->with('success', 'File uploaded successfully.')->with('fileDetails', $fileDetails);
+        } catch (QueryException $e) {
+            // Log the error for debugging purposes
+            Log::error('Database error: ' . $e->getMessage());
+
+            // Return a user-friendly error message
+            return redirect()->back()->with('error', 'There was a problem uploading your file. Please try again.');
+        }
     }
 
     public function deleteFile($id)
