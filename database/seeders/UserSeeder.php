@@ -9,26 +9,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run()
+    public function run(): void
     {
         $users = [
             [
-                "username" => "univ_lab_bekasi",
+                "username" => "LabCenterBekasi",
                 "password" => Hash::make('univ_lab_bekasi'),
-                "role" => "SuperAdmin",
+                "role" => "Admin",
             ],
             [
-                "username" => "tutor",
-                "password" => Hash::make('tutor'),
-                "role" => "Admin",
+                "username" => "Tutor",
+                "password" => Hash::make('L3v3l1ng!'),
+                "role" => "Tutor",
             ],
         ];
         foreach ($users as $user) {
             User::insert($user);
         }
     }
-
 }

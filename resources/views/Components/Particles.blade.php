@@ -9,13 +9,9 @@
     <style>
         body {
             background: radial-gradient(circle, #00d2ff, #3a7bd5);
-            /* Set the background color to blue */
             margin: 0;
-            /* Remove default margin */
             padding: 0;
-            /* Remove default padding */
             overflow: hidden;
-            /* Prevent scrollbars */
         }
 
         #particles-js {
@@ -25,7 +21,6 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            /* Set z-index to make particles appear below content */
         }
 
     </style>
@@ -82,8 +77,8 @@
                 "line_linked": {
                     "enable": true,
                     "distance": 150,
-                    "color": "#ffffff", // Set the line color to white
-                    "opacity": 1, // Set the opacity to 1 for fully visible lines
+                    "color": "#ffffff",
+                    "opacity": 1,
                     "width": 1
                 },
                 "move": {
@@ -109,7 +104,7 @@
                         "mode": "grab"
                     },
                     "onclick": {
-                        "enable": false, // Disable click event
+                        "enable": false,
                         "mode": "push"
                     },
                     "resize": true
@@ -157,7 +152,6 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 
-    {{-- Web Content --}}
     <div class="container mt-5 mb-5">
         @yield('content')
     </div>

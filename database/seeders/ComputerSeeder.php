@@ -7,15 +7,12 @@ use Illuminate\Database\Seeder;
 
 class ComputerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
 
         $computers = [
             [
-                "name" => "BMCA031_Local",
+                "name" => "Local",
                 "room" => "Local",
                 "ip_address" => "127.0.0.1"
             ],

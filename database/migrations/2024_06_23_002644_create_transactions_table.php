@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
@@ -26,10 +23,8 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Add LONGBLOB column using raw SQL
         DB::statement('ALTER TABLE transactions ADD file_content LONGBLOB');
 
-        // Add foreign key constraint
         Schema::table('transactions', function (Blueprint $table) {
             $table->foreign('subject_code')->references('subject_code')->on('subjects');
         });
@@ -37,9 +32,6 @@ return new class extends Migration
         DB::statement('ALTER TABLE files ADD file_content LONGBLOB');
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('transactions', function (Blueprint $table) {

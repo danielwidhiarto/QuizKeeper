@@ -1,32 +1,30 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\AuthCheck;
+Use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TutorController;
 use App\Http\Middleware\RoleCheck;
-use App\Http\Controllers\FileController;
+use App\Http\Middleware\AuthCheck;
 
-Route::get('/', [FileController::class, 'showUploadForm']);
-Route::post('/upload', [FileController::class, 'upload'])->name('upload');
+//Student Page
+Route::get('/', [StudentController::class, 'showUploadForm']);
+Route::post('/upload', [StudentController::class, 'upload'])->name('upload');
 
-//Admin Login Page
-Route::get('/auth/login', function(){return view('Login');})->name('admin_login');
+//Login Page
+Route::get('/auth/login', function(){return view('Login');})->name('login');
+Route::post('/auth/login', [AuthController::class, 'loginAccount'])->name('login');
+Route::get('/auth/logout', [AuthController::class, 'logoutAccount'])->name('logout');
 
-//Admin Login Route
-Route::post('/auth/login', [AdminController::class, 'adminLogin'])->name('admin_login');
+//Tutor Page
+Route::get('/tutor/dashboard', [AuthController::class, 'homePage'])->name('tutor_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Tutor');
+Route::post('/tutor/dashboard/backup-all-files', [TutorController::class, 'backupToServer'])->name('backup_to_server')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Tutor');
+Route::delete('/tutor/dashboard/delete-all-file/', [TutorController::class, 'deleteAll'])->name('delete_all')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Tutor');
+Route::get('/tutor/dashboard/download-all-files', [TutorController::class, 'downloadAll'])->name('download_all')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Tutor');
+Route::delete('/tutor/dashboard/delete-file/{id}', [TutorController::class, 'delete'])->name('delete')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Tutor');
+Route::get('/tutor/dashboard/download-file/{id}', [TutorController::class, 'download'])->name('download')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Tutor');
 
-//Admin Dashboard
-Route::get('/dashboard', [AdminController::class, 'homeIndex'])->name('admin_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
-Route::get('/dashboard/SuperAdmin', [AdminController::class, 'homeIndex'])->name('superAdmin_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':SuperAdmin');
-Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin_logout');
-
-//Files
-Route::delete('/dashboard/delete-file/{id}', [FileController::class, 'deleteFile'])->name('delete_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
-Route::get('/dashboard/download-file/{id}', [FileController::class, 'downloadFile'])->name('download_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
-Route::delete('/dashboard/delete-all-file/', [FileController::class, 'deleteAllFile'])->name('delete_all_files')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
-Route::get('/dashboard/download-all-files', [FileController::class, 'downloadAllFiles'])->name('download_all_files')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
-Route::post('/dashboard/backup-all-files', [FileController::class, 'backupAllFiles'])->name('backup_all_files')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
-
-//Download Backup File SuperAdmin
-Route::get('/download/file/{id}', [FileController::class, 'downloadBackupFiles'])->name('download_backup_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':SuperAdmin');
-
+//Admin Page
+Route::get('/admin/dashboard/', [AuthController::class, 'homePage'])->name('admin_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
+Route::get('admin/download/file/{id}', [AdminController::class, 'downloadBackupFiles'])->name('download_backup_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');

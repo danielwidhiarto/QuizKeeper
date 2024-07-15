@@ -7,9 +7,7 @@ use App\Models\Subject;
 
 class SubjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run()
     {
         $subjects = [
@@ -203,7 +201,7 @@ class SubjectSeeder extends Seeder
             ['subject_code' => 'SCIE6063049', 'subject_name' => 'Computational Physics'],
             ['subject_code' => 'SCIE6080051', 'subject_name' => 'Computational Biology']
         ];
-        // Insert subjects into the database
+
         foreach ($subjects as $subject) {
             Subject::insert($subject);
         }

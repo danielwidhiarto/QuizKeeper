@@ -14,7 +14,7 @@ class Files extends Model
         'size',
         'ip_address',
         'computer_id',
-        'content', // Add this if it's not already there
+        'content',
     ];
 
 }

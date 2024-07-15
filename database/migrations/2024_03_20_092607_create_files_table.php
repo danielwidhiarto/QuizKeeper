@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('files', function (Blueprint $table) {
@@ -24,9 +21,6 @@ return new class extends Migration
         DB::statement('ALTER TABLE files ADD content LONGBLOB');
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('files');

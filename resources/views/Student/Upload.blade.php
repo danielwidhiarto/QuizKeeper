@@ -1,4 +1,4 @@
-@extends('Layouts.Particles')
+@extends('Components.Particles')
 
 @section('title', 'QuizKeeper')
 
