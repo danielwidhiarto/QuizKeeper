@@ -59,7 +59,7 @@
                 </td>
                 <td data-bs-toggle="modal" data-bs-target="#actionModal-{{ $transaction->id }}">{{ $transaction->class }}</td>
                 <td data-bs-toggle="modal" data-bs-target="#actionModal-{{ $transaction->id }}">{{ $transaction->room }}</td>
-                <td data-bs-toggle="modal" data-bs-target="#actionModal-{{ $transaction->id }}">{{ $transaction->assistant_initial }}, {{ $transaction->assistant_initial2 }}</td>
+                <td data-bs-toggle="modal" data-bs-target="#actionModal-{{ $transaction->id }}">{{ $transaction->assistant_initial }} {{ $transaction->assistant_initial2 }}</td>
                 <td>
                     <a href="{{ route('download_backup_file', $transaction->id) }}" class="btn btn-primary">
                         <i class="bi bi-download"></i>
