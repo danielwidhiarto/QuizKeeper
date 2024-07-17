@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('exam_terms');
             $table->string('exam_type');
             $table->string('subject_code');
             $table->date('exam_date');
