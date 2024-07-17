@@ -4,6 +4,15 @@
 @section('content')
     <div class="container">
         <h2>Uploaded Files</h2>
+
+        <!-- Display success message -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="mb-3 d-flex justify-content-end">
             <button type="button" class="btn btn-danger mr-2" data-bs-toggle="modal"
                 data-bs-target="#deleteAllConfirmationModal">Delete All</button>
