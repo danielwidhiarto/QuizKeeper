@@ -82,6 +82,14 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label for="exam_terms" class="form-label">Exam Terms</label>
+                            <select class="form-select" id="exam_terms" name="exam_terms" required>
+                                <option selected>Odd Semester 2024/2025</option>
+                                <option value="Odd Semester 2024/2025">Odd Semester 2024/2025</option>
+                                <option value="Even Semester 2024/2025">Compact Semester 2025</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="subject_select" class="form-label">Select Subject</label>
                             <select class="form-control" id="subject_select" name="subject_code">
                                 <option value="" selected>Select Subject</option>

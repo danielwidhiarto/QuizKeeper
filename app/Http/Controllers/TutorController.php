@@ -21,6 +21,7 @@ class TutorController extends Controller
         'room' => 'required',
         'proctor' => 'required|string',
         'proctor2' => 'nullable|string',
+        'exam_terms' => 'required|string', // New validation rule
     ]);
 
     $files = Files::all();
@@ -53,13 +54,14 @@ class TutorController extends Controller
         $transaction->room = $request->room;
         $transaction->assistant_initial = $request->proctor;
         $transaction->assistant_initial2 = $request->proctor2;
+        $transaction->exam_terms = $request->exam_terms; // Save the exam terms
         $transaction->file_content = file_get_contents($tempFile);
         $transaction->save();
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Failed to create transaction record.');
     }
 
-    return redirect()->back()->with('success', 'Backup created and saved to server successfully.');
+   return redirect()->back()->with('success', 'Backup created and saved to server successfully.');
 
 }
 
