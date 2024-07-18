@@ -32,7 +32,7 @@ class AuthController extends Controller
                 return redirect()->route('admin_dashboard');
             }
         } else {
-            return redirect()->back()->with('error', 'Authentication Failed! Please check your username and password.');
+            return redirect()->back()->with('error', 'Wrong username or password.');
         }
     }
 
