@@ -44,7 +44,7 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-    public function homePage()
+    public function homePage(Request $request)
     {
         $users = User::get();
         $computers = Computer::get();
@@ -55,12 +55,19 @@ class AuthController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->role == 'Tutor') {
-                return view('Tutor.Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
+                if ($request->ip() == '127.0.0.3') {
+                    return view('Tutor.314Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
+                } elseif ($request->ip() == '127.0.0.1') {
+                    return view('Tutor.315Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
+                } elseif ($request->ip() == '128.0.0.2') {
+                    return view('Tutor.316Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
+                }  elseif ($request->ip() == '128.0.0.3') {
+                    return view('Tutor.317Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
+                }
             }
             if (Auth::user()->role == 'Admin') {
                 return view('Admin.Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
             }
         }
-
     }
 }

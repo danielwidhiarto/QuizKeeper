@@ -34,36 +34,38 @@
             </thead>
             <tbody>
                 @foreach ($computers as $computer)
-                    <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}"
-                        style="margin-bottom: 5px;">
-                        <td>{{ $computer->name }}</td>
-                        <td>
-                            @foreach ($computer->files as $file)
-                                {{ round($file->size) }}
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach ($computer->files as $file)
-                                {{ $file->updated_at->format('d F Y, H:i') }}<br>
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach ($computer->files as $file)
-                                <a href="{{ route('download', $file->id) }}" class="btn btn-outline-primary">
-                                    <i class="bi bi-download"></i>
-                                </a>
-                                <!-- Delete icon with form to delete the file -->
-                                <form action="{{ route('delete', $file->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                        data-bs-target="#deleteConfirmationModal">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            @endforeach
-                        </td>
-                    </tr>
+                    @if ($computer->room == 'BMCA0316')
+                        <tr class="{{ $computer->files->isEmpty() ? 'table-danger' : 'table-success' }}"
+                            style="margin-bottom: 5px;">
+                            <td>{{ $computer->name }}</td>
+                            <td>
+                                @foreach ($computer->files as $file)
+                                    {{ round($file->size) }}
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($computer->files as $file)
+                                    {{ $file->updated_at->format('d F Y, H:i') }}<br>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($computer->files as $file)
+                                    <a href="{{ route('download', $file->id) }}" class="btn btn-outline-primary">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                    <!-- Delete icon with form to delete the file -->
+                                    <form action="{{ route('delete', $file->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                            data-bs-target="#deleteConfirmationModal">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
