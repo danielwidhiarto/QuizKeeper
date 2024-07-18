@@ -21,7 +21,7 @@ class TutorController extends Controller
         'room' => 'required',
         'proctor' => 'required|string',
         'proctor2' => 'nullable|string',
-        'exam_terms' => 'required|string', // New validation rule
+        'exam_terms' => 'required|string',
     ]);
 
     $files = Files::all();
