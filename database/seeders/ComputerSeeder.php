@@ -12,21 +12,6 @@ class ComputerSeeder extends Seeder
 
         $computers = [
             [
-                "name" => "Local",
-                "room" => "Local",
-                "ip_address" => "127.0.0.1"
-            ],
-            [
-                "name" => "BMCA031807",
-                "room" => "BMCA0318",
-                "ip_address" => "10.38.10.62"
-            ],
-            [
-                "name" => "BMCA031808",
-                "room" => "BMCA0318",
-                "ip_address" => "10.38.10.149"
-            ],
-            [
                 "name" => "BMCA031401",
                 "room" => "BMCA0314",
                 "ip_address" => "10.38.22.101"

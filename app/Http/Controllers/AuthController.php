@@ -55,13 +55,13 @@ class AuthController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->role == 'Tutor') {
-                if ($request->ip() == '127.0.0.3') {
+                if ($request->ip() == '10.38.22.131') {
                     return view('Tutor.314Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                } elseif ($request->ip() == '127.0.0.1') {
+                } elseif ($request->ip() == '10.38.25.131') {
                     return view('Tutor.315Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                } elseif ($request->ip() == '128.0.0.2') {
+                } elseif ($request->ip() == '10.38.29.131') {
                     return view('Tutor.316Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                }  elseif ($request->ip() == '128.0.0.3') {
+                }  elseif ($request->ip() == '10.38.23.131') {
                     return view('Tutor.317Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
                 }
             }
