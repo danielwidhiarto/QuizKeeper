@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="card" style="width: 350px; height: 340px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;">
+<div class="card" style="width: 350px; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;">
     <div class="card-body">
         <img src="{{ asset('images/ribbon.png') }}" class="card-img-top" alt="Ribbon Picture" style="width: 42px; height: 128px;">
         <img src="{{ asset('images/binus.png') }}" class="card-img-top" alt="Binus Picture" style="width: 164px; height: 112px; margin-left: 16px;">
@@ -28,6 +28,11 @@
                 </div>
             </div>
             <div class="d-grid gap-2">
+                @if (session('error'))
+                <div class="text-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <button type="submit" class="btn btn-primary" id="loginButton" style="background-color: rgb(0, 169, 226); font-weight: bold;">
                     <span id="buttonText">Login</span>
                     <div id="spinner" class="spinner-border spinner-border-sm" role="status" style="display: none;">
