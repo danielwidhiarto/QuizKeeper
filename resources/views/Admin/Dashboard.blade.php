@@ -5,6 +5,14 @@
 <div class="container">
     <h2 class="mt-4">File Management</h2>
 
+    <!-- Display success message -->
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <!-- Filter Section -->
     <div class="row mt-3">
         <div class="col-md-3">
@@ -50,12 +58,12 @@
                 <th>Class</th>
                 <th>Room</th>
                 <th>Proctoring Assistant</th>
-                <th>Download File</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($transactions as $transaction)
-            <tr data-id="{{ $transaction->id }}" data-subject="{{ $transaction->subject_code }}" data-date="{{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }}" data-exam-type="{{ $transaction->exam_type }}" data-terms="{{ $transaction->exam_terms }}" data-bs-toggle="modal" data-bs-target="#actionModal-{{ $transaction->id }}">
+            <tr data-id="{{ $transaction->id }}" data-subject="{{ $transaction->subject_code }}" data-date="{{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }}" data-exam-type="{{ $transaction->exam_type }}" data-terms="{{ $transaction->exam_terms }}">
                 <td>{{ $transaction->exam_type }}</td>
                 <td>{{ $transaction->subject_code }}</td>
                 <td>{{ $subjects[$transaction->subject_code]->subject_name ?? '' }}</td>
@@ -71,6 +79,9 @@
                     <a href="{{ route('download_backup_file', $transaction->id) }}" class="btn btn-primary">
                         <i class="bi bi-download"></i>
                     </a>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $transaction->id }}">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </td>
             </tr>
             @endforeach
@@ -79,28 +90,24 @@
 
 <!-- Modals for each transaction -->
 @foreach ($transactions as $transaction)
-<div class="modal fade" id="actionModal-{{ $transaction->id }}" tabindex="-1" aria-labelledby="actionModalLabel-{{ $transaction->id }}" aria-hidden="true">
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal-{{ $transaction->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $transaction->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="actionModalLabel-{{ $transaction->id }}">Details for {{ $transaction->subject_code }} - {{ $subjects[$transaction->subject_code]->subject_name ?? '' }} - {{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }} - {{ $transaction->class }}</h5>
+                <h5 class="modal-title" id="deleteModalLabel-{{ $transaction->id }}">Delete Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong>Exam Terms:</strong> {{ $transaction->exam_terms }}</p>
-                <p><strong>Exam Type:</strong> {{ $transaction->exam_type }}</p>
-                <p><strong>Subject Code:</strong> {{ $transaction->subject_code }}</p>
-                <p><strong>Subject Name:</strong> {{ $subjects[$transaction->subject_code]->subject_name ?? '' }}</p>
-                <p><strong>Exam Date:</strong> {{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }}</p>
-                <p><strong>Exam Time:</strong> {{ \Carbon\Carbon::parse($transaction->exam_start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($transaction->exam_start_time)->addMinutes($transaction->exam_duration)->format('H:i') }}</p>
-                <p><strong>Exam Duration:</strong> {{ $transaction->exam_duration }} minutes</p>
-                <p><strong>Class:</strong> {{ $transaction->class }}</p>
-                <p><strong>Room:</strong> {{ $transaction->room }}</p>
-                <p><strong>Proctoring Assistant 1:</strong> {{ $transaction->assistant_initial }}</p>
-                <p><strong>Proctoring Assistant 2:</strong> {{ $transaction->assistant_initial2 }}</p>
+                Are you sure you want to delete this backup file?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('delete_backup_file', $transaction->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>
