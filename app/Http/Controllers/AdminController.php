@@ -17,4 +17,12 @@ class AdminController extends Controller
         }, 'backup_' . $transaction->id . '.zip');
     }
 
+    public function deleteBackupFiles($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $transaction->delete();
+
+        return redirect()->back()->with('success', 'Backup file deleted successfully.');
+    }
+
 }
