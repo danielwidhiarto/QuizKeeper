@@ -17,4 +17,9 @@ class Files extends Model
         'content',
     ];
 
+    public function computer()
+    {
+        return $this->belongsTo(Computer::class);
+    }
+
 }
