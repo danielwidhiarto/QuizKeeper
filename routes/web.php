@@ -29,3 +29,4 @@ Route::get('/tutor/dashboard/download-file/{id}', [TutorController::class, 'down
 Route::get('/admin/dashboard/', [AuthController::class, 'homePage'])->name('admin_dashboard')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
 Route::get('admin/download/file/{id}', [AdminController::class, 'downloadBackupFiles'])->name('download_backup_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
 Route::delete('admin/delete/file/{id}', [AdminController::class, 'deleteBackupFiles'])->name('delete_backup_file')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');
+Route::get('/open-file-explorer/{id}', [AdminController::class, 'openFileExplorer'])->name('open_file_explorer')->middleware([AuthCheck::class])->middleware(RoleCheck::class.':Admin');

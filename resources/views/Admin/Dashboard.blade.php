@@ -76,8 +76,8 @@
                 <td>{{ $transaction->room }}</td>
                 <td>{{ $transaction->assistant_initial }} {{ $transaction->assistant_initial2 }}</td>
                 <td>
-                    <a href="{{ route('download_backup_file', $transaction->id) }}" class="btn btn-primary">
-                        <i class="bi bi-download"></i>
+                    <a href="{{ route('open_file_explorer', $transaction->id) }}" class="btn btn-primary">
+                        <i class="bi bi-folder"></i>
                     </a>
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $transaction->id }}">
                         <i class="bi bi-trash"></i>
