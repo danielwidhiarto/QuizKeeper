@@ -84,6 +84,7 @@ class TutorController extends Controller
             $transaction->assistant_initial = $request->proctor;
             $transaction->assistant_initial2 = $request->proctor2;
             $transaction->exam_terms = $request->exam_terms;
+            $transaction->file_content = file_get_contents($tempFile);
             $transaction->file_path = $filePath; // Save the file path to the transaction
             $transaction->save();
         } catch (\Exception $e) {
