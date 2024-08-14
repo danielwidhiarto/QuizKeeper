@@ -83,7 +83,6 @@ class TutorController extends Controller
         return redirect()->back()->with('success', "All files in room $room deleted successfully.");
     }
 
-
     public function downloadAll(Request $request)
     {
         $request->validate([
@@ -103,7 +102,7 @@ class TutorController extends Controller
         }
 
         $zip = new ZipArchive;
-        $zipFileName = 'all_files.zip';
+        $zipFileName = "all_{$room}_files.zip";  // Updated filename
         $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
 
         if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
