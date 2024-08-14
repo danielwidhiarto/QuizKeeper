@@ -63,7 +63,7 @@
         </thead>
         <tbody>
             @foreach ($transactions as $transaction)
-            <tr data-id="{{ $transaction->id }}" data-subject="{{ $transaction->subject_code }}" data-date="{{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }}" data-exam-type="{{ $transaction->exam_type }}" data-terms="{{ $transaction->exam_terms }}">
+            <tr data-id="{{ $transaction->id }}" data-subject="{{ $transaction->subject_code }}" data-date="{{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }}" data-exam-type="{{ $transaction->exam_type }}" data-terms="{{ $transaction->exam_terms }}" class="transaction-row">
                 <td>{{ $transaction->exam_type }}</td>
                 <td>{{ $transaction->subject_code }}</td>
                 <td>{{ $subjects[$transaction->subject_code]->subject_name ?? '' }}</td>
@@ -78,6 +78,9 @@
                 <td>
                     <a href="{{ route('open_file_explorer', $transaction->id) }}" class="btn btn-primary">
                         <i class="bi bi-folder"></i>
+                    </a>
+                    <a href="{{ route('download_backup_file', $transaction->id) }}" class="btn btn-success">
+                        <i class="bi bi-download"></i>
                     </a>
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $transaction->id }}">
                         <i class="bi bi-trash"></i>
