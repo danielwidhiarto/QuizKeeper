@@ -180,6 +180,7 @@
                     <form action="{{ route('delete_all') }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
+                        <input type="hidden" name="room" value="BMCA0317">
                         <button type="submit" class="btn btn-danger">Delete All</button>
                     </form>
                 </div>
@@ -203,6 +204,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <form action="{{ route('download_all') }}" method="GET" style="display:inline;">
                         @csrf
+                        <input type="hidden" name="room" value="BMCA0317">
                         <button type="submit" class="btn btn-primary">Download All</button>
                     </form>
                 </div>
