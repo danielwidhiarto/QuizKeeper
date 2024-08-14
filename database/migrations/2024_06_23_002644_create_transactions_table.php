@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('exam_duration');
             $table->string('class');
             $table->string('room');
+            $table->string('file_path');
             $table->string('assistant_initial');
             $table->string('assistant_initial2')->nullable();
             $table->timestamps();
