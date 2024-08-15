@@ -14,11 +14,20 @@ class AdminController extends Controller
     {
         $transaction = Transaction::findOrFail($id);
 
+        // Customize the ZIP filename
+        $zipFileName = sprintf(
+            'Backup_%s_%s_%s.zip',
+            $transaction->exam_type,
+            $transaction->subject_code,
+            $transaction->class,
+        );
+        $zipFileName = str_replace(' ', '_', $zipFileName); // Replace spaces with underscores
+
         $fileContent = $transaction->file_content;
 
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
-        }, 'backup_' . $transaction->id . '.zip');
+        }, $zipFileName);
     }
 
     public function deleteBackupFiles($id)

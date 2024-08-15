@@ -46,7 +46,16 @@ class TutorController extends Controller
             }
 
             $zip = new ZipArchive;
-            $zipFileName = 'backup_' . time() . '.zip';
+
+            // Customize the ZIP filename
+            $zipFileName = sprintf(
+                'Backup_%s_%s_%s.zip',
+                $request->exam_type,
+                $request->subject_code,
+                $request->class,
+            );
+            $zipFileName = str_replace(' ', '_', $zipFileName); // Replace spaces with underscores
+
             $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
 
             if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
@@ -60,10 +69,10 @@ class TutorController extends Controller
             }
 
             // Create directory structure
-            $baseDir = 'C:/QuizKeeperBackup/' . $request->exam_terms . '/' . $request->exam_date . '/' . $request->subject_code . '-' . $subject->subject_name . '/' . $request->class;
+            $baseDir = 'C:/QuizKeeperBackup/' . $request->exam_terms . '/' . $request->exam_date . '/' . $request->exam_type . '/' . $request->subject_code . '-' . $subject->subject_name . '/' . $request->class;
 
             if (!file_exists($baseDir)) {
-                mkdir($baseDir, 0777, true); // Create the directory structure recursively
+                mkdir($baseDir, 0777, true);
             }
 
             $filePath = $baseDir . '/' . $zipFileName;
@@ -160,12 +169,16 @@ class TutorController extends Controller
     public function download($id)
     {
         $file = Files::findOrFail($id);
+        $computer = Computer::find($file->computer_id);
+
+        $pcName = $computer ? $computer->name : 'unknown_computer';
+
+        $filename = $pcName . '_files';
 
         $fileContent = $file->content;
 
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
-        }, $file->name);
+        }, $filename);
     }
-
 }
