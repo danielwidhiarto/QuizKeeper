@@ -68,12 +68,20 @@ class TutorController extends Controller
                 return redirect()->back()->with('error', 'Could not create ZIP file.');
             }
 
-            // Create directory structure
-            $baseDir = 'C:/QuizKeeperBackup/' . $request->exam_terms . '/' . $request->exam_date . '/' . $request->exam_type . '/' . $request->subject_code . '-' . $subject->subject_name . '/' . $request->class;
+            // Sanitize the exam_terms to replace slashes with hyphens or underscores
+            $sanitizedExamTerms = str_replace('/', '-', $request->exam_terms);
+
+            $baseDir = 'C:/QuizKeeperBackup/'
+                . $sanitizedExamTerms . '/'
+                . $request->exam_date . '/'
+                . $request->subject_code . '-' . $subject->subject_name . '/'
+                . $request->class . '/'
+                . $request->type;
 
             if (!file_exists($baseDir)) {
                 mkdir($baseDir, 0777, true);
             }
+
 
             $filePath = $baseDir . '/' . $zipFileName;
 
