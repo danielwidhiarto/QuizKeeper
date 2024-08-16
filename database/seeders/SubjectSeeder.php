@@ -199,7 +199,8 @@ class SubjectSeeder extends Seeder
             ['subject_code' => 'SCIE6063001', 'subject_name' => 'Computational Physics'],
             ['subject_code' => 'SCIE6063016', 'subject_name' => 'Computational Physics'],
             ['subject_code' => 'SCIE6063049', 'subject_name' => 'Computational Physics'],
-            ['subject_code' => 'SCIE6080051', 'subject_name' => 'Computational Biology']
+            ['subject_code' => 'SCIE6080051', 'subject_name' => 'Computational Biology'],
+            ['subject_code' => 'Others001', 'subject_name' => 'Others']
         ];
 
         foreach ($subjects as $subject) {
