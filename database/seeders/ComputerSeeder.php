@@ -10,6 +10,8 @@ class ComputerSeeder extends Seeder
     public function run(): void
     {
 
+        Computer::query()->delete();
+
         $computers = [
             [
                 "name" => "LocalPC",
