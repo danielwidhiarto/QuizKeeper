@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Delete all existing records
-        User::truncate();
+        User::query()->delete();
 
         // New data to seed
         $users = [
@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             ],
             [
                 "username" => "Tutor",
-                "password" => Hash::make('L3bB3k3n!'),
+                "password" => Hash::make('L4bB3k3n!'),
                 "role" => "Tutor",
             ],
         ];
