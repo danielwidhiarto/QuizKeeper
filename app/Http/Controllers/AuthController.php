@@ -57,13 +57,13 @@ class AuthController extends Controller
             if (Auth::user()->role == 'Tutor') {
                 if ($request->ip() == '127.0.0.1') {
                     return view('Tutor.LocalDashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                } else if ($request->ip() == '10.38.22.131') {
+                } elseif ($request->ip() == '10.38.22.130' || $request->ip() == '10.38.22.131') {
                     return view('Tutor.314Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                } elseif ($request->ip() == '10.38.25.131') {
+                } elseif ($request->ip() == '10.38.25.131' || $request->ip() == '10.38.25.130') {
                     return view('Tutor.315Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                } elseif ($request->ip() == '10.38.29.131') {
+                } elseif ($request->ip() == '10.38.29.131' || $request->ip() == '10.38.29.130') {
                     return view('Tutor.316Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
-                } elseif ($request->ip() == '10.38.23.131') {
+                } elseif ($request->ip() == '10.38.23.131' || $request->ip() == '10.38.23.130') {
                     return view('Tutor.317Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
                 } else {
                     return redirect()->back()->with('error', 'Your PC is not authorized to access this page.');
