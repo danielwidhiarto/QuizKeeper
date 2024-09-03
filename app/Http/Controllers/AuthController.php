@@ -55,7 +55,7 @@ class AuthController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->role == 'Tutor') {
-                if ($request->ip() == '127.0.0.1') {
+                if ($request->ip() == '127.0.0.1' || $request->ip() == '10.38.10.62') {
                     return view('Tutor.LocalDashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
                 } elseif ($request->ip() == '10.38.22.130' || $request->ip() == '10.38.22.131') {
                     return view('Tutor.314Dashboard', compact('users', 'computers', 'files', 'subjects', 'transactions'));
