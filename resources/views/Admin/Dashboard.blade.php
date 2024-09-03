@@ -54,7 +54,7 @@
                 <th>Subject Code</th>
                 <th>Subject Name</th>
                 <th>Exam Date</th>
-                <th>Exam Time</th>
+                {{-- <th>Exam Time</th> --}}
                 <th>Class</th>
                 <th>Room</th>
                 <th>Proctoring Assistant</th>
@@ -68,10 +68,10 @@
                 <td>{{ $transaction->subject_code }}</td>
                 <td>{{ $subjects[$transaction->subject_code]->subject_name ?? '' }}</td>
                 <td>{{ \Carbon\Carbon::parse($transaction->exam_date)->format('Y-m-d') }}</td>
-                <td>
+                {{-- <td>
                     {{ \Carbon\Carbon::parse($transaction->exam_start_time)->format('H:i') }} -
                     {{ \Carbon\Carbon::parse($transaction->exam_start_time)->addMinutes($transaction->exam_duration)->format('H:i') }}
-                </td>
+                </td> --}}
                 <td>{{ $transaction->class }}</td>
                 <td>{{ $transaction->room }}</td>
                 <td>{{ $transaction->assistant_initial }} {{ $transaction->assistant_initial2 }}</td>
