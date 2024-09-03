@@ -20,8 +20,8 @@ class TutorController extends Controller
                 'subject_code' => 'required',
                 'type' => 'required',
                 'exam_date' => 'required|date',
-                'start_time' => 'required|date_format:H:i',
-                'duration' => 'required|integer|min:1',
+                'start_time' => 'nullable|date_format:H:i',
+                'duration' => 'nullable|integer|min:1',
                 'class' => 'required|string',
                 'room' => 'required',
                 'proctor' => 'required|string',
@@ -29,9 +29,7 @@ class TutorController extends Controller
                 'exam_terms' => 'required|string',
             ]);
 
-            // Fetch the subject using the subject_code
             $subject = Subject::where('subject_code', $request->subject_code)->first();
-
             if (!$subject) {
                 Log::error('Subject not found for subject code ' . $request->subject_code);
                 return redirect()->back()->with('error', 'Subject not found for the provided code.');
@@ -39,28 +37,30 @@ class TutorController extends Controller
 
             $computers = Computer::where('room', $request->room)->pluck('id');
             $files = Files::whereIn('computer_id', $computers)->get();
-
             if ($files->isEmpty()) {
                 Log::error('No files available to backup in room ' . $request->room);
                 return redirect()->back()->with('error', 'No files available to backup in this room.');
             }
 
             $zip = new ZipArchive;
-
-            // Customize the ZIP filename
             $zipFileName = sprintf(
                 'Backup_%s_%s_%s.zip',
-                $request->exam_type,
+                $request->type,
                 $request->subject_code,
                 $request->class,
             );
-            $zipFileName = str_replace(' ', '_', $zipFileName); // Replace spaces with underscores
+            $zipFileName = str_replace(' ', '_', $zipFileName);
 
             $tempFile = tempnam(sys_get_temp_dir(), $zipFileName);
 
             if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
                 foreach ($files as $file) {
-                    $zip->addFromString($file->name, $file->content);
+                    $fileName = $file->name;
+                    $fileContent = $file->content;
+
+                    // Ensure unique file name
+                    $filePath = $this->getUniqueFileName($zip, $fileName);
+                    $zip->addFromString($filePath, $fileContent);
                 }
                 $zip->close();
             } else {
@@ -68,7 +68,6 @@ class TutorController extends Controller
                 return redirect()->back()->with('error', 'Could not create ZIP file.');
             }
 
-            // Sanitize the exam_terms to replace slashes with hyphens or underscores
             $sanitizedExamTerms = str_replace('/', '-', $request->exam_terms);
 
             $baseDir = 'C:/QuizKeeperBackup/'
@@ -81,7 +80,6 @@ class TutorController extends Controller
             if (!file_exists($baseDir)) {
                 mkdir($baseDir, 0777, true);
             }
-
 
             $filePath = $baseDir . '/' . $zipFileName;
 
@@ -102,7 +100,7 @@ class TutorController extends Controller
             $transaction->assistant_initial2 = $request->proctor2;
             $transaction->exam_terms = $request->exam_terms;
             $transaction->file_content = file_get_contents($tempFile);
-            $transaction->file_path = $filePath; // Save the file path to the transaction
+            $transaction->file_path = $filePath;
             $transaction->save();
         } catch (\Exception $e) {
             Log::error('Failed to create transaction record: ' . $e->getMessage());
@@ -111,6 +109,29 @@ class TutorController extends Controller
 
         return redirect()->back()->with('success', 'Backup created and saved to server successfully.');
     }
+
+    /**
+     * Generate a unique file name within the ZIP archive.
+     *
+     * @param ZipArchive $zip
+     * @param string $fileName
+     * @return string
+     */
+    private function getUniqueFileName(ZipArchive $zip, $fileName)
+    {
+        $i = 0;
+        $name = pathinfo($fileName, PATHINFO_FILENAME);
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $newFileName = $fileName;
+
+        while ($zip->locateName($newFileName) !== false) {
+            $i++;
+            $newFileName = $name . '(' . $i . ').' . $extension;
+        }
+
+        return $newFileName;
+    }
+
 
     public function deleteAll(Request $request)
     {
