@@ -117,14 +117,14 @@
                             <label for="exam_date" class="form-label">Exam Date</label>
                             <input type="date" class="form-control" id="exam_date" name="exam_date" required>
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="start_time" class="form-label">Exam Start Time</label>
                             <input type="time" class="form-control" id="start_time" name="start_time" required>
                         </div>
                         <div class="mb-3">
                             <label for="duration" class="form-label">Exam Duration (minutes)</label>
                             <input type="number" class="form-control" id="duration" name="duration" required>
-                        </div>
+                        </div> --}}
 
                         <div class="mb-3">
                             <label for="class" class="form-label">Class</label>
