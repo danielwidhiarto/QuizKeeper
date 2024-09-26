@@ -28,6 +28,7 @@ class SubjectSeeder extends Seeder
 
             //BIT
             ['subject_code' => 'COMP6178003', 'subject_name' => 'Introduction to Programming'],
+            ['subject_code' => 'ISYS6898003', 'subject_name' => 'Algorithm and Programming'],
             ['subject_code' => 'ISYS6123003', 'subject_name' => 'Introduction to Database Systems'],
             ['subject_code' => 'ISYS6197003', 'subject_name' => 'Business Application Development'],
 
