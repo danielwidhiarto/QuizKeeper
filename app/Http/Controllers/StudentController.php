@@ -29,10 +29,10 @@ class StudentController extends Controller
         if ($request->file('file')->isValid()) {
 
             $size = $request->file('file')->getSize();
-            
-            if ($size < 10240) {
-                return back()->withErrors(['file' => 'The file must be at least 10 KB.']);
-            }
+
+            // if ($size < 10240) {
+            //     return back()->withErrors(['file' => 'The file must be at least 10 KB.']);
+            // }
 
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
