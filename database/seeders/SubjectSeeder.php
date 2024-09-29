@@ -41,6 +41,10 @@ class SubjectSeeder extends Seeder
             ['subject_code' => 'ACCT0000001', 'subject_name' => 'Accounting'],
             ['subject_code' => 'OTHERS00001', 'subject_name' => 'Others'],
 
+            //NAR25-1
+            ['subject_code' => 'NAR25-1-APT', 'subject_name' => 'Aptitude Test'],
+            ['subject_code' => 'NAR25-1-PT60', 'subject_name' => 'Programming Test 60'],
+            ['subject_code' => 'NAR25-1-PT90', 'subject_name' => 'Programming Test 90'],
         ];
 
         foreach ($subjects as $subject) {
