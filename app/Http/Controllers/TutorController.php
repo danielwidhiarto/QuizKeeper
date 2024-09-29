@@ -202,10 +202,12 @@ class TutorController extends Controller
 
         $pcName = $computer ? $computer->name : 'unknown_computer';
 
-        $filename = $pcName . '_files';
+        // Use the file's original name and extension
+        $filename = $pcName . '_' . $file->name;
 
         $fileContent = $file->content;
 
+        // Stream the file with the proper name and extension
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
         }, $filename);
