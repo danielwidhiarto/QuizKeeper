@@ -25,6 +25,11 @@ class UserSeeder extends Seeder
                 "password" => Hash::make('L3bB3k3n!'),
                 "role" => "Tutor",
             ],
+            [
+                "username" => "EXAM",
+                "password" => Hash::make('R3ch3ck!'),
+                "role" => "Tutor",
+            ],
         ];
 
         // Insert new data
