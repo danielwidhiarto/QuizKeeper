@@ -32,9 +32,6 @@ class SubjectSeeder extends Seeder
             ['subject_code' => 'ISYS6123003', 'subject_name' => 'Introduction to Database Systems'],
             ['subject_code' => 'ISYS6197003', 'subject_name' => 'Business Application Development'],
 
-            //BIT B28
-            ['subject_code' => 'ISYS6898003', 'subject_name' => 'Algorithm and Programming'],
-
             //Others
             ['subject_code' => 'PSYS0000001', 'subject_name' => 'Psychology'],
             ['subject_code' => 'MGMT0000001', 'subject_name' => 'Management'],
