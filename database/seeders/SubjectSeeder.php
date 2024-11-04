@@ -25,6 +25,7 @@ class SubjectSeeder extends Seeder
             ['subject_code' => 'COMP6122001', 'subject_name' => 'Framework Layer Architecture'],
             ['subject_code' => 'COMP6800001', 'subject_name' => 'Human and Computer Interaction'],
             ['subject_code' => 'SCIE6062001', 'subject_name' => 'Computational Biology'],
+            ['subject_code' => 'COSC6048001', 'subject_name' => 'Code Reengineering'],
 
             //BIT
             ['subject_code' => 'COMP6178003', 'subject_name' => 'Introduction to Programming'],
