@@ -7,7 +7,7 @@
 <div class="card" style="width: 350px; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;">
     <div class="card-body">
         <img src="{{ asset('images/ribbon.png') }}" class="card-img-top" alt="Ribbon Picture" style="width: 42px; height: 128px;">
-        <img src="{{ asset('images/binus.png') }}" class="card-img-top" alt="Binus Picture" style="width: 164px; height: 112px; margin-left: 16px;">
+        <img src="{{ asset('images/binus2.png') }}" class="card-img-top" alt="Binus Picture" style="width: 175px; height: 150px; margin-left: 16px;">
         <form action="{{ route('login') }}" method="POST" id="loginForm">
             @csrf
             <div class="mt-3">
